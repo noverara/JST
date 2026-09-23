@@ -4,278 +4,403 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pembelajaran Mandiri JST: Konsep & Model Klasifikasi</title>
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js untuk Simulasi Graph -->
+    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- FontAwesome Icons -->
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- MathJax untuk Formula Matematika (LaTeX) -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="mathjax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Custom CSS Styles -->
+    <style>
+        .gradient-header {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 50%, #1e1b4b 100%);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+        }
+    </style>
 </head>
-<body class="bg-slate-50 font-sans text-slate-800 flex flex-col min-h-screen">
+<body class="bg-slate-50 font-sans text-slate-800 flex flex-col min-h-screen custom-scrollbar">
 
-    <!-- Header / Navbar -->
-    <header class="bg-gradient-to-r from-indigo-700 to-purple-700 text-white shadow-md sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+    <header class="gradient-header text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-brain text-2xl text-amber-300"></i>
+                <div class="p-2.5 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
+                    <i class="fa-solid fa-brain text-2xl text-amber-300"></i>
+                </div>
                 <div>
-                    <h1 class="text-xl font-bold tracking-wide">Modul Pembelajaran Mandiri JST</h1>
-                    <p class="text-xs text-indigo-200">Mata Kuliah Jaringan Saraf Tiruan</p>
+                    <h1 class="text-lg sm:text-xl font-bold tracking-wide">Modul Pembelajaran Mandiri JST</h1>
+                    <p class="text-xs text-indigo-200">Mata Kuliah Jaringan Saraf Tiruan &bull; Topik: Klasifikasi</p>
                 </div>
             </div>
-            <span class="bg-indigo-900/60 text-xs text-indigo-100 px-3 py-1.5 rounded-full border border-indigo-400/30 font-medium hidden sm:inline-block">
-                Topik: Konsep & Model Klasifikasi
-            </span>
+            <div class="hidden md:flex items-center space-x-2 bg-indigo-900/40 px-3.5 py-1.5 rounded-full border border-indigo-400/30 text-xs font-medium text-indigo-100">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Modul Interaktif Online</span>
+            </div>
         </div>
     </header>
 
-    <!-- Main Content Layout -->
-    <div class="max-w-6xl mx-auto px-4 py-8 flex-grow grid grid-cols-1 md:grid-cols-4 gap-6 w-full">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow grid grid-cols-1 md:grid-cols-4 gap-6 w-full">
 
         <!-- Navigation Sidebar -->
-        <aside class="md:col-span-1 bg-white p-4 rounded-2xl shadow-sm border border-slate-200 h-fit md:sticky md:top-24">
-            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Daftar Modul</h2>
-            <nav class="space-y-1.5">
-                <button onclick="showTab('konsep')" id="btn-konsep" class="w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 flex items-center space-x-2 bg-indigo-50 text-indigo-600 shadow-sm">
+        <aside class="md:col-span-1 bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 h-fit md:sticky md:top-24">
+            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">Daftar Modul</h2>
+            <nav class="space-y-1.5" id="nav-list">
+                <button onclick="showTab('konsep')" id="btn-konsep" class="w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 flex items-center space-x-3 bg-indigo-50 text-indigo-600 shadow-sm border border-indigo-100/50">
                     <i class="fa-solid fa-book-open text-indigo-500 w-5"></i>
                     <span>1. Konsep Dasar</span>
                 </button>
-                <button onclick="showTab('arsitektur')" id="btn-arsitektur" class="w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 flex items-center space-x-2 text-slate-600 hover:bg-slate-100">
+                <button onclick="showTab('arsitektur')" id="btn-arsitektur" class="w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 flex items-center space-x-3 text-slate-600 hover:bg-slate-100">
                     <i class="fa-solid fa-network-wired text-slate-400 w-5"></i>
                     <span>2. Arsitektur Model</span>
                 </button>
-                <button onclick="showTab('simulasi')" id="btn-simulasi" class="w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 flex items-center space-x-2 text-slate-600 hover:bg-slate-100">
+                <button onclick="showTab('simulasi')" id="btn-simulasi" class="w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 flex items-center space-x-3 text-slate-600 hover:bg-slate-100">
                     <i class="fa-solid fa-flask text-slate-400 w-5"></i>
                     <span>3. Lab Simulasi</span>
                 </button>
-                <button onclick="showTab('kuis')" id="btn-kuis" class="w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 flex items-center space-x-2 text-slate-600 hover:bg-slate-100">
+                <button onclick="showTab('kuis')" id="btn-kuis" class="w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 flex items-center space-x-3 text-slate-600 hover:bg-slate-100">
                     <i class="fa-solid fa-list-check text-slate-400 w-5"></i>
                     <span>4. Evaluasi Mandiri</span>
                 </button>
             </nav>
-            <div class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-500">
-                <p class="font-semibold text-slate-600 mb-1"><i class="fa-solid fa-circle-info mr-1"></i>Petunjuk:</p>
-                <p>Pelajari modul secara berurutan dari Bab 1 hingga menyelesaikan Kuis Evaluasi di Bab 4.</p>
+
+            <div class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-500 space-y-2 px-1">
+                <div class="flex items-center space-x-1.5 text-indigo-600 font-semibold">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>Petunjuk Perkuliahan:</span>
+                </div>
+                <p class="leading-relaxed">Selesaikan modul 1 hingga 3 secara mandiri, kemudian kerjakan kuis di Modul 4 sebagai bukti kehadiran pengganti pertemuan.</p>
             </div>
         </aside>
 
-        <!-- Main Workspace -->
         <main class="md:col-span-3 space-y-6">
 
             <!-- TAB 1: KONSEP DASAR -->
-            <section id="tab-konsep" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-5">
-                <div class="border-b pb-3 border-slate-100">
-                    <span class="text-xs font-semibold uppercase text-indigo-600 tracking-wider">Modul 1</span>
-                    <h2 class="text-2xl font-bold text-slate-900">Konsep Dasar Klasifikasi JST</h2>
+            <section id="tab-konsep" class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200/80 space-y-6">
+                <div class="border-b pb-4 border-slate-100 flex justify-between items-center">
+                    <div>
+                        <span class="text-xs font-semibold uppercase text-indigo-600 tracking-wider">Modul 1</span>
+                        <h2 class="text-2xl font-bold text-slate-900">Konsep Dasar Klasifikasi JST</h2>
+                    </div>
+                    <span class="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl"><i class="fa-solid fa-book-open text-xl"></i></span>
                 </div>
                 
                 <p class="text-slate-600 leading-relaxed">
-                    <strong>Klasifikasi</strong> dalam pembelajaran mesin (*machine learning*) dan Jaringan Saraf Tiruan (JST) adalah proses mengelompokkan data ke dalam kategori atau kelas tertentu berdasarkan ciri-ciri (*features*) data tersebut.
+                    <strong>Klasifikasi</strong> dalam Jaringan Saraf Tiruan (JST) adalah proses pemetaan dari variabel masukan (*features*) ke variabel sasaran yang bersifat diskrit (*categories/classes*). Model dipelajari untuk memprediksi kategori mana yang paling sesuai dengan suatu data baru.
                 </p>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
-                    <div class="p-4 rounded-xl bg-indigo-50/60 border border-indigo-100 space-y-2">
-                        <div class="flex items-center space-x-2 text-indigo-900 font-semibold">
-                            <i class="fa-solid fa-bullseye text-indigo-600"></i>
+                <!-- Grid Tipe Klasifikasi -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-5 rounded-2xl bg-indigo-50/70 border border-indigo-100 space-y-2">
+                        <div class="flex items-center space-x-2 text-indigo-900 font-bold">
+                            <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-xs">
+                                <i class="fa-solid fa-bullseye"></i>
+                            </div>
                             <h3>Klasifikasi Biner</h3>
                         </div>
                         <p class="text-sm text-indigo-950/80 leading-relaxed">
-                            Memisahkan data menjadi <strong>dua kelas</strong> (misal: 0 atau 1, Ya atau Tidak).<br>
-                            <em>Contoh:</em> Memprediksi apakah email termasuk Spam/Bukan Spam, atau memprediksi kelulusan mahasiswa (Lulus/Gagal).
+                            Memisahkan data ke dalam <strong>dua kategori</strong> (contoh: $0$ atau $1$, Positif atau Negatif).<br>
+                            <span class="text-xs text-indigo-700 italic block mt-1">&bull; Contoh: Deteksi Email Spam/Bukan Spam, Diagnosis Penyakit.</span>
                         </p>
                     </div>
-                    <div class="p-4 rounded-xl bg-purple-50/60 border border-purple-100 space-y-2">
-                        <div class="flex items-center space-x-2 text-purple-900 font-semibold">
-                            <i class="fa-solid fa-cubes text-purple-600"></i>
+
+                    <div class="p-5 rounded-2xl bg-purple-50/70 border border-purple-100 space-y-2">
+                        <div class="flex items-center space-x-2 text-purple-900 font-bold">
+                            <div class="w-8 h-8 rounded-lg bg-purple-600 text-white flex items-center justify-center text-xs">
+                                <i class="fa-solid fa-layer-group"></i>
+                            </div>
                             <h3>Klasifikasi Multi-Kelas</h3>
                         </div>
                         <p class="text-sm text-purple-950/80 leading-relaxed">
-                            Memisahkan data ke dalam <strong>lebih dari dua kelas</strong>.<br>
-                            <em>Contoh:</em> Pengenalan citra angka buatan tangan ($0$ hingga $9$), atau mengklasifikasikan jenis penyakit tanaman berdasarkan daun.
+                            Memisahkan data ke dalam <strong>lebih dari dua kategori</strong> ($K > 2$).<br>
+                            <span class="text-xs text-purple-700 italic block mt-1">&bull; Contoh: Pengenalan Angka Tangan (0-9), Jenis Kendaraan.</span>
                         </p>
                     </div>
                 </div>
 
-                <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
-                    <h3 class="font-semibold text-slate-800">Komponen Utama Neuron Klasifikasi</h3>
-                    <p class="text-sm text-slate-600">Sebuah neuron buatan (Perceptron) memproses data klasifikasi melalui 3 langkah matematis utama:</p>
-                    <ul class="list-disc pl-5 space-y-2 text-sm text-slate-700">
-                        <li><strong>Fitur Input ($X$):</strong> Nilai variabel yang dimasukkan ke dalam model ($x_1, x_2, \dots, x_n$).</li>
-                        <li><strong>Kombinasi Linear ($Z$):</strong> Perkalian antara input dengan bobot ($W$) ditambah bias ($b$):
-                            <div class="my-2 p-2 bg-white rounded border border-slate-200 font-mono text-center overflow-x-auto">
-                                $Z = \sum_{i=1}^{n} (w_i \cdot x_i) + b = w_1 x_1 + w_2 x_2 + b$
-                            </div>
-                        </li>
-                        <li><strong>Fungsi Aktivasi ($\hat{y}$):</strong> Mengubah hasil linear $Z$ menjadi rentang nilai probabilitas atau kategori kelas target.</li>
-                    </ul>
+                <!-- Komponen JST -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 space-y-3">
+                    <h3 class="font-bold text-slate-800 text-base">Anatomi Neuron Buatan (Perceptron)</h3>
+                    <p class="text-sm text-slate-600">Model klasifikasi terkecil dalam JST menerima input $X$, mengalikannya dengan bobot $W$, menambahkan bias $b$, dan melewatkannya ke fungsi aktivasi:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+                        <div class="bg-white p-3.5 rounded-xl border border-slate-200 text-center">
+                            <span class="text-xs text-slate-400 block uppercase font-semibold">1. Input & Bobot</span>
+                            <span class="font-mono text-sm font-bold text-indigo-600 block my-1">X &bull; W</span>
+                            <span class="text-xs text-slate-500">Nilai fitur dikalikan dengan kekuatan koneksi (bobot).</span>
+                        </div>
+                        <div class="bg-white p-3.5 rounded-xl border border-slate-200 text-center">
+                            <span class="text-xs text-slate-400 block uppercase font-semibold">2. Kombinasi Linear</span>
+                            <span class="font-mono text-sm font-bold text-indigo-600 block my-1">Z = W&bull;X + b</span>
+                            <span class="text-xs text-slate-500">Penjumlahan terbobot ditambah nilai Bias ($b$).</span>
+                        </div>
+                        <div class="bg-white p-3.5 rounded-xl border border-slate-200 text-center">
+                            <span class="text-xs text-slate-400 block uppercase font-semibold">3. Output Prediksi</span>
+                            <span class="font-mono text-sm font-bold text-indigo-600 block my-1">Y = f(Z)</span>
+                            <span class="text-xs text-slate-500">Fungsi Aktivasi memetakan nilai $Z$ ke label kelas.</span>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <!-- TAB 2: ARSITEKTUR -->
-            <section id="tab-arsitektur" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-5">
-                <div class="border-b pb-3 border-slate-100">
-                    <span class="text-xs font-semibold uppercase text-indigo-600 tracking-wider">Modul 2</span>
-                    <h2 class="text-2xl font-bold text-slate-900">Arsitektur & Fungsi Aktivasi</h2>
+            <!-- TAB 2: ARSITEKTUR & FUNGSI AKTIVASI -->
+            <section id="tab-arsitektur" class="hidden bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200/80 space-y-6">
+                <div class="border-b pb-4 border-slate-100 flex justify-between items-center">
+                    <div>
+                        <span class="text-xs font-semibold uppercase text-indigo-600 tracking-wider">Modul 2</span>
+                        <h2 class="text-2xl font-bold text-slate-900">Arsitektur & Fungsi Aktivasi</h2>
+                    </div>
+                    <span class="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl"><i class="fa-solid fa-network-wired text-xl"></i></span>
                 </div>
 
                 <p class="text-slate-600 leading-relaxed">
-                    Fungsi aktivasi berperan penting untuk memberikan sifat **non-linear** pada jaringan saraf, sehingga JST mampu mempelajari pola-pola rumit pada data.
+                    Fungsi aktivasi bertanggung jawab membawa non-linearitas ke dalam jaringan. Tanpa fungsi aktivasi, JST hanya berperan seperti persamaan linear biasa meskipun memiliki banyak *layer*.
                 </p>
 
                 <div class="space-y-4">
-                    <h3 class="font-bold text-slate-800">Fungsi Aktivasi Populer untuk Klasifikasi:</h3>
-                    
-                    <!-- Sigmoid -->
-                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col md:flex-row gap-4 items-start">
-                        <div class="p-3 bg-indigo-100 text-indigo-700 rounded-lg font-bold text-sm min-w-[100px] text-center">
-                            Sigmoid
+                    <h3 class="font-bold text-slate-800 text-base">Fungsi Aktivasi Utama pada Model Klasifikasi:</h3>
+
+                    <!-- Sigmoid Card -->
+                    <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 hover:bg-slate-50 transition-colors space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-indigo-700 bg-indigo-100 px-3 py-1 rounded-lg text-sm">Fungsi Sigmoid</span>
+                            <span class="text-xs font-mono bg-slate-200 text-slate-700 px-2.5 py-1 rounded">Range: (0, 1)</span>
                         </div>
-                        <div class="space-y-1 text-sm text-slate-700">
-                            <p class="font-semibold text-slate-900">Persamaan: $\sigma(z) = \frac{1}{1 + e^{-z}}$</p>
-                            <p>Mengompres output ke dalam rentang nilai <strong>0 hingga 1</strong>. Sangat umum digunakan pada *layer output* untuk **klasifikasi biner** karena output dapat diinterpretasikan sebagai probabilitas.</p>
+                        <div class="font-mono text-sm font-semibold text-slate-800 py-1">
+                            f(z) = 1 / (1 + e<sup>-z</sup>)
                         </div>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Mengompres nilai input acak menjadi kisaran 0 hingga 1. Sangat umum digunakan pada <strong>layer output klasifikasi biner</strong> karena nilainya dapat diinterpretasikan secara langsung sebagai probabilitas.
+                        </p>
                     </div>
 
-                    <!-- ReLU -->
-                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col md:flex-row gap-4 items-start">
-                        <div class="p-3 bg-purple-100 text-purple-700 rounded-lg font-bold text-sm min-w-[100px] text-center">
-                            ReLU
+                    <!-- ReLU Card -->
+                    <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 hover:bg-slate-50 transition-colors space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-purple-700 bg-purple-100 px-3 py-1 rounded-lg text-sm">Fungsi ReLU (Rectified Linear Unit)</span>
+                            <span class="text-xs font-mono bg-slate-200 text-slate-700 px-2.5 py-1 rounded">Range: [0, &infin;)</span>
                         </div>
-                        <div class="space-y-1 text-sm text-slate-700">
-                            <p class="font-semibold text-slate-900">Persamaan: $f(z) = \max(0, z)$</p>
-                            <p>Mengubah semua nilai negatif menjadi 0 dan mempertahankan nilai positif. Paling efisien dan umum digunakan pada **hidden layer** JST modern.</p>
+                        <div class="font-mono text-sm font-semibold text-slate-800 py-1">
+                            f(z) = max(0, z)
                         </div>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Mengubah seluruh nilai negatif menjadi 0 dan membiarkan nilai positif tetap. Sangat efisien dan menjadi pilihan standar untuk <strong>hidden layers</strong> dalam JST modern.
+                        </p>
                     </div>
 
-                    <!-- Softmax -->
-                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col md:flex-row gap-4 items-start">
-                        <div class="p-3 bg-emerald-100 text-emerald-700 rounded-lg font-bold text-sm min-w-[100px] text-center">
-                            Softmax
+                    <!-- Softmax Card -->
+                    <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 hover:bg-slate-50 transition-colors space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-lg text-sm">Fungsi Softmax</span>
+                            <span class="text-xs font-mono bg-slate-200 text-slate-700 px-2.5 py-1 rounded">&Sigma; Probabilitas = 1.0</span>
                         </div>
-                        <div class="space-y-1 text-sm text-slate-700">
-                            <p class="font-semibold text-slate-900">Persamaan: $\sigma(z)_i = \frac{e^{z_i}}{\sum_{j} e^{z_j}}$</p>
-                            <p>Digunakan pada layer output untuk **klasifikasi multi-kelas**. Menghasilkan distribusi probabilitas di mana total seluruh kelas bernilai 1.</p>
+                        <div class="font-mono text-sm font-semibold text-slate-800 py-1">
+                            f(z)<sub>i</sub> = e<sup>z<sub>i</sub></sup> / &Sigma; e<sup>z<sub>j</sub></sup>
                         </div>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Digunakan pada <strong>layer output untuk klasifikasi multi-kelas</strong>. Mengubah vektor output menjadi distribusi probabilitas di mana total seluruh kelas berjumlah tepat 1.0.
+                        </p>
                     </div>
                 </div>
             </section>
 
-            <!-- TAB 3: SIMULASI INTERAKTIF -->
-            <section id="tab-simulasi" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-5">
-                <div class="border-b pb-3 border-slate-100">
-                    <span class="text-xs font-semibold uppercase text-indigo-600 tracking-wider">Modul 3</span>
-                    <h2 class="text-2xl font-bold text-slate-900">Lab Simulasi: Decision Boundary</h2>
+            <!-- TAB 3: LAB SIMULASI -->
+            <section id="tab-simulasi" class="hidden bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200/80 space-y-6">
+                <div class="border-b pb-4 border-slate-100 flex justify-between items-center">
+                    <div>
+                        <span class="text-xs font-semibold uppercase text-indigo-600 tracking-wider">Modul 3</span>
+                        <h2 class="text-2xl font-bold text-slate-900">Lab Simulasi: Decision Boundary</h2>
+                    </div>
+                    <span class="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl"><i class="fa-solid fa-flask text-xl"></i></span>
                 </div>
 
-                <p class="text-slate-600 text-sm">
-                    Ubah parameter Bobot ($W_1, W_2$) dan Bias ($b$) di bawah ini untuk melihat bagaimana garis pemisah (*Decision Boundary*) memisahkan sampel <strong>Kelas A (Biru)</strong> dan <strong>Kelas B (Merah)</strong>.
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Atur slider bobot ($W_1, W_2$) dan bias ($b$) di bawah untuk mengamati bagaimana garis pemisah keputusan (*Decision Boundary*) bergerak memisahkan <strong>Kelas A (Biru)</strong> dan <strong>Kelas B (Merah)</strong>.
                 </p>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Control Panel -->
-                    <div class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                        <h3 class="font-bold text-sm text-slate-700 uppercase tracking-wide">Parameter Neuron</h3>
+                    <!-- Control Panel Sliders -->
+                    <div class="space-y-4 bg-slate-50 p-5 rounded-2xl border border-slate-200/80">
+                        <h3 class="font-bold text-sm text-slate-800 uppercase tracking-wider flex items-center space-x-2">
+                            <i class="fa-solid fa-sliders text-indigo-600"></i>
+                            <span>Parameter Neuron</span>
+                        </h3>
+
+                        <!-- Slider W1 -->
                         <div>
-                            <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
-                                <span>Bobot 1 ($W_1$):</span>
-                                <span id="val-w1" class="text-indigo-600">1.0</span>
+                            <div class="flex justify-between text-xs font-bold text-slate-700 mb-1">
+                                <span>Bobot 1 (W<sub>1</sub>):</span>
+                                <span id="val-w1" class="text-indigo-600 font-mono text-sm">1.0</span>
                             </div>
-                            <input type="range" id="w1" min="-3" max="3" step="0.1" value="1.0" class="w-full accent-indigo-600" oninput="updatePlot()">
+                            <input type="range" id="w1" min="-3" max="3" step="0.1" value="1.0" class="w-full accent-indigo-600 cursor-pointer" oninput="updatePlot()">
                         </div>
+
+                        <!-- Slider W2 -->
                         <div>
-                            <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
-                                <span>Bobot 2 ($W_2$):</span>
-                                <span id="val-w2" class="text-indigo-600">-1.0</span>
+                            <div class="flex justify-between text-xs font-bold text-slate-700 mb-1">
+                                <span>Bobot 2 (W<sub>2</sub>):</span>
+                                <span id="val-w2" class="text-indigo-600 font-mono text-sm">-1.0</span>
                             </div>
-                            <input type="range" id="w2" min="-3" max="3" step="0.1" value="-1.0" class="w-full accent-indigo-600" oninput="updatePlot()">
+                            <input type="range" id="w2" min="-3" max="3" step="0.1" value="-1.0" class="w-full accent-indigo-600 cursor-pointer" oninput="updatePlot()">
                         </div>
+
+                        <!-- Slider Bias b -->
                         <div>
-                            <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
-                                <span>Bias ($b$):</span>
-                                <span id="val-b" class="text-indigo-600">0.0</span>
+                            <div class="flex justify-between text-xs font-bold text-slate-700 mb-1">
+                                <span>Bias (b):</span>
+                                <span id="val-b" class="text-indigo-600 font-mono text-sm">0.0</span>
                             </div>
-                            <input type="range" id="b" min="-3" max="3" step="0.1" value="0.0" class="w-full accent-indigo-600" oninput="updatePlot()">
+                            <input type="range" id="b" min="-3" max="3" step="0.1" value="0.0" class="w-full accent-indigo-600 cursor-pointer" oninput="updatePlot()">
                         </div>
 
                         <div class="pt-3 border-t border-slate-200 text-xs text-slate-600 space-y-1">
-                            <span class="font-semibold block text-slate-700">Persamaan Batas Keputusan:</span>
-                            <div class="p-2 bg-white rounded border border-slate-200 font-mono text-center">
-                                $W_1 X_1 + W_2 X_2 + b = 0$
+                            <span class="font-semibold block text-slate-700">Persamaan Garis Keputusan:</span>
+                            <div class="p-2 bg-white rounded-lg border border-slate-200 font-mono text-center text-slate-800" id="equation-display">
+                                1.0X<sub>1</sub> + (-1.0)X<sub>2</sub> + 0.0 = 0
                             </div>
                         </div>
                     </div>
 
                     <!-- Canvas Chart -->
-                    <div class="lg:col-span-2 flex flex-col justify-center bg-white p-3 rounded-xl border border-slate-200 shadow-inner">
+                    <div class="lg:col-span-2 flex flex-col justify-center bg-white p-4 rounded-2xl border border-slate-200 shadow-inner min-h-[300px]">
                         <canvas id="chartKlasifikasi" class="w-full h-64"></canvas>
                     </div>
                 </div>
             </section>
 
-            <!-- TAB 4: KUIS EVALUASI -->
-            <section id="tab-kuis" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-5">
-                <div class="border-b pb-3 border-slate-100">
-                    <span class="text-xs font-semibold uppercase text-indigo-600 tracking-wider">Modul 4</span>
-                    <h2 class="text-2xl font-bold text-slate-900">Evaluasi Pemahaman Mandiri</h2>
+            <!-- TAB 4: EVALUASI MANDIRI -->
+            <section id="tab-kuis" class="hidden bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200/80 space-y-6">
+                <div class="border-b pb-4 border-slate-100 flex justify-between items-center">
+                    <div>
+                        <span class="text-xs font-semibold uppercase text-indigo-600 tracking-wider">Modul 4</span>
+                        <h2 class="text-2xl font-bold text-slate-900">Evaluasi Pemahaman Mandiri</h2>
+                    </div>
+                    <span class="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl"><i class="fa-solid fa-list-check text-xl"></i></span>
                 </div>
 
+                <!-- Form Identitas Mahasiswa -->
+                <div class="bg-indigo-50/80 border border-indigo-100 p-5 rounded-2xl space-y-4">
+                    <div class="flex items-center space-x-2 text-indigo-900 font-bold text-sm">
+                        <i class="fa-solid fa-id-card text-indigo-600"></i>
+                        <h3>Identitas Mahasiswa (Wajib Diisi)</h3>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap *</label>
+                            <input type="text" id="mhs-nama" placeholder="Contoh: Budi Santoso" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">NIM (Nomor Induk Mahasiswa) *</label>
+                            <input type="text" id="mhs-nim" placeholder="Contoh: 210101234" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daftar Soal Kuis -->
                 <div id="quiz-container" class="space-y-4">
-                    <!-- Soal 1 -->
-                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
-                        <p class="font-semibold text-slate-800 text-sm">1. Fungsi aktivasi mana yang paling cocok digunakan pada layer output untuk permasalahan klasifikasi biner?</p>
-                        <div class="space-y-1.5 text-sm">
-                            <label class="flex items-center space-x-2 p-2 rounded-lg bg-white border border-slate-200 hover:bg-indigo-50/50 cursor-pointer">
-                                <input type="radio" name="q1" value="a" class="accent-indigo-600"> <span>ReLU</span>
+                    <div class="p-5 rounded-2xl border border-slate-200/80 bg-slate-50/50 space-y-2">
+                        <p class="font-semibold text-slate-800 text-sm">1. Fungsi aktivasi apa yang paling tepat digunakan pada layer output untuk masalah klasifikasi biner?</p>
+                        <div class="space-y-2 text-sm pt-1">
+                            <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 hover:bg-indigo-50/50 cursor-pointer transition-colors">
+                                <input type="radio" name="q1" value="a" class="accent-indigo-600"> <span>A. ReLU</span>
                             </label>
-                            <label class="flex items-center space-x-2 p-2 rounded-lg bg-white border border-slate-200 hover:bg-indigo-50/50 cursor-pointer">
-                                <input type="radio" name="q1" value="b" class="accent-indigo-600"> <span>Sigmoid</span>
+                            <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 hover:bg-indigo-50/50 cursor-pointer transition-colors">
+                                <input type="radio" name="q1" value="b" class="accent-indigo-600"> <span>B. Sigmoid</span>
                             </label>
-                            <label class="flex items-center space-x-2 p-2 rounded-lg bg-white border border-slate-200 hover:bg-indigo-50/50 cursor-pointer">
-                                <input type="radio" name="q1" value="c" class="accent-indigo-600"> <span>Linear</span>
+                            <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 hover:bg-indigo-50/50 cursor-pointer transition-colors">
+                                <input type="radio" name="q1" value="c" class="accent-indigo-600"> <span>C. Linear</span></label>
+                        </div>
+                    </div>
+
+                    <div class="p-5 rounded-2xl border border-slate-200/80 bg-slate-50/50 space-y-2">
+                        <p class="font-semibold text-slate-800 text-sm">2. Apa fungsi utama nilai Bias ($b$) dalam persamaan garis keputusan JST ($WX + b = 0$)?</p>
+                        <div class="space-y-2 text-sm pt-1">
+                            <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 hover:bg-indigo-50/50 cursor-pointer transition-colors">
+                                <input type="radio" name="q2" value="a" class="accent-indigo-600"> <span>A. Menggeser posisi garis pemisah dari titik pusat (origin)</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 hover:bg-indigo-50/50 cursor-pointer transition-colors">
+                                <input type="radio" name="q2" value="b" class="accent-indigo-600"> <span>B. Mengubah sudut kemiringan (slope) garis</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 hover:bg-indigo-50/50 cursor-pointer transition-colors">
+                                <input type="radio" name="q2" value="c" class="accent-indigo-600"> <span>C. Menghilangkan fitur input yang bernilai negatif</span>
                             </label>
                         </div>
                     </div>
 
-                    <!-- Soal 2 -->
-                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
-                        <p class="font-semibold text-slate-800 text-sm">2. Apa fungsi utama dari nilai Bias ($b$) pada model klasifikasi Perceptron?</p>
-                        <div class="space-y-1.5 text-sm">
-                            <label class="flex items-center space-x-2 p-2 rounded-lg bg-white border border-slate-200 hover:bg-indigo-50/50 cursor-pointer">
-                                <input type="radio" name="q2" value="a" class="accent-indigo-600"> <span>Menggeser posisi garis batas keputusan (*Decision Boundary*)</span>
+                    <div class="p-5 rounded-2xl border border-slate-200/80 bg-slate-50/50 space-y-2">
+                        <p class="font-semibold text-slate-800 text-sm">3. Jika kita ingin mengklasifikasikan gambar ke dalam 5 kategori buah yang berbeda, fungsi aktivasi mana yang digunakan pada output layer?</p>
+                        <div class="space-y-2 text-sm pt-1">
+                            <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 hover:bg-indigo-50/50 cursor-pointer transition-colors">
+                                <input type="radio" name="q3" value="a" class="accent-indigo-600"> <span>A. Sigmoid</span>
                             </label>
-                            <label class="flex items-center space-x-2 p-2 rounded-lg bg-white border border-slate-200 hover:bg-indigo-50/50 cursor-pointer">
-                                <input type="radio" name="q2" value="b" class="accent-indigo-600"> <span>Mengubah kemiringan sudut (*slope*) input</span>
+                            <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 hover:bg-indigo-50/50 cursor-pointer transition-colors">
+                                <input type="radio" name="q3" value="b" class="accent-indigo-600"> <span>B. Softmax</span>
                             </label>
-                            <label class="flex items-center space-x-2 p-2 rounded-lg bg-white border border-slate-200 hover:bg-indigo-50/50 cursor-pointer">
-                                <input type="radio" name="q2" value="c" class="accent-indigo-600"> <span>Menghapus data masukan bernilai nol</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Soal 3 -->
-                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
-                        <p class="font-semibold text-slate-800 text-sm">3. Jika kita ingin mengklasifikasikan data ke dalam 5 kelas yang berbeda, fungsi aktivasi output apa yang ideal digunakan?</p>
-                        <div class="space-y-1.5 text-sm">
-                            <label class="flex items-center space-x-2 p-2 rounded-lg bg-white border border-slate-200 hover:bg-indigo-50/50 cursor-pointer">
-                                <input type="radio" name="q3" value="a" class="accent-indigo-600"> <span>Sigmoid</span>
-                            </label>
-                            <label class="flex items-center space-x-2 p-2 rounded-lg bg-white border border-slate-200 hover:bg-indigo-50/50 cursor-pointer">
-                                <input type="radio" name="q3" value="b" class="accent-indigo-600"> <span>Softmax</span>
-                            </label>
-                            <label class="flex items-center space-x-2 p-2 rounded-lg bg-white border border-slate-200 hover:bg-indigo-50/50 cursor-pointer">
-                                <input type="radio" name="q3" value="c" class="accent-indigo-600"> <span>Binary Step</span>
+                            <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 hover:bg-indigo-50/50 cursor-pointer transition-colors">
+                                <input type="radio" name="q3" value="c" class="accent-indigo-600"> <span>C. Step Function</span>
                             </label>
                         </div>
                     </div>
 
-                    <button onclick="checkQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-5 py-2.5 rounded-xl text-sm transition-all shadow-sm">
-                        Kirim Jawaban
+                    <button onclick="checkQuiz()" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-6 py-3 rounded-xl text-sm transition-all shadow-md flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Kirim Jawaban & Hasilkan Bukti</span>
                     </button>
-                    <div id="quiz-result" class="hidden p-4 rounded-xl text-sm font-medium"></div>
                 </div>
+
+                <!-- KARTU BUKTI PENGERJAAN MANDIRI -->
+                <div id="quiz-result-card" class="hidden bg-gradient-to-br from-white to-slate-50 border-2 border-indigo-600 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+                    <div class="flex justify-between items-start border-b pb-4 border-slate-200">
+                        <div>
+                            <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest block mb-1">Bukti Presensi & Pengerjaan Mandiri</span>
+                            <h3 class="text-xl font-extrabold text-slate-800">Modul JST: Konsep & Model Klasifikasi</h3>
+                        </div>
+                        <div class="p-3 bg-indigo-600 text-white rounded-xl shadow-md">
+                            <i class="fa-solid fa-certificate text-2xl"></i>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-white p-4 rounded-xl border border-slate-200">
+                        <div>
+                            <span class="text-slate-400 text-xs block font-semibold uppercase">Nama Mahasiswa</span>
+                            <strong id="res-nama" class="text-slate-800 text-base"></strong>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 text-xs block font-semibold uppercase">NIM</span>
+                            <strong id="res-nim" class="text-slate-800 text-base"></strong>
+                        </div>
+                        <div class="sm:col-span-2 pt-2 border-t border-slate-100">
+                            <span class="text-slate-400 text-xs block font-semibold uppercase">Waktu Selesai Pengerjaan</span>
+                            <span id="res-time" class="text-slate-700 font-medium text-sm"></span>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-xl bg-slate-900 text-white text-center space-y-1">
+                        <span class="text-xs text-slate-400 block uppercase font-bold tracking-wider">Skor Evaluasi Akhir</span>
+                        <div id="res-score" class="text-4xl font-extrabold my-2 text-emerald-400">0 / 100</div>
+                        <p id="res-feedback" class="text-xs font-medium text-slate-300"></p>
+                    </div>
+
+                    <div class="p-4 bg-amber-50 border border-amber-200/80 rounded-xl text-xs text-amber-900 flex items-start space-x-3">
+                        <i class="fa-solid fa-camera text-lg text-amber-600 mt-0.5"></i>
+                        <div class="space-y-1">
+                            <span class="font-bold block">Petunjuk Pengumpulan Tugas:</span>
+                            <p class="leading-relaxed">Silakan tangkap layar (*screenshot*) kartu bukti pengerjaan ini (pastikan Nama, NIM, Skor, dan URL browser terlihat jelas) lalu unggah ke LMS / Google Form sebagai bukti kehadiran Anda.</p>
+                        </div>
+                    </div>
+                </div>
+
             </section>
 
         </main>
@@ -283,45 +408,47 @@
 
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 mt-auto py-4 text-center text-xs text-slate-500">
-        <p>© Modul Pembelajaran Mandiri Jaringan Saraf Tiruan. Dibuat untuk Pengganti Pertemuan Kuliah.</p>
+        <div class="max-w-7xl mx-auto px-4">
+            <p>&copy; Modul Pembelajaran Mandiri Jaringan Saraf Tiruan. Dirancang untuk Pembelajaran Jarak Jauh / Pengganti Pertemuan.</p>
+        </div>
     </footer>
 
-    <!-- JavaScript Interaktif -->
+    <!-- JavaScript Application Logic -->
     <script>
-        // Navigasi Tab
+        // 1. Navigation Tab Controller
         function showTab(tabName) {
             const tabs = ['konsep', 'arsitektur', 'simulasi', 'kuis'];
+            
             tabs.forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
-                document.getElementById(`btn-${t}`).classList.remove('bg-indigo-50', 'text-indigo-600', 'shadow-sm');
-                document.getElementById(`btn-${t}`).classList.add('text-slate-600');
                 
-                // Reset icon color
-                const icon = document.getElementById(`btn-${t}`).querySelector('i');
-                if(icon) {
+                const btn = document.getElementById(`btn-${t}`);
+                btn.classList.remove('bg-indigo-50', 'text-indigo-600', 'shadow-sm', 'border', 'border-indigo-100/50');
+                btn.classList.add('text-slate-600');
+                
+                const icon = btn.querySelector('i');
+                if (icon) {
                     icon.classList.remove('text-indigo-500');
                     icon.classList.add('text-slate-400');
                 }
             });
 
+            // Activate Target Tab
+            const activeTab = document.getElementById(`tab-${tabName}`);
             const activeBtn = document.getElementById(`btn-${tabName}`);
-            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
-            activeBtn.classList.add('bg-indigo-50', 'text-indigo-600', 'shadow-sm');
+            
+            activeTab.classList.remove('hidden');
+            activeBtn.classList.add('bg-indigo-50', 'text-indigo-600', 'shadow-sm', 'border', 'border-indigo-100/50');
             activeBtn.classList.remove('text-slate-600');
             
             const activeIcon = activeBtn.querySelector('i');
-            if(activeIcon) {
+            if (activeIcon) {
                 activeIcon.classList.remove('text-slate-400');
                 activeIcon.classList.add('text-indigo-500');
             }
-
-            // Trigger MathJax re-render if needed
-            if (window.MathJax) {
-                MathJax.typesetPromise();
-            }
         }
 
-        // Script Simulasi Visualisasi Graph Chart.js
+        // 2. Interactive Chart.js Simulation
         let chart;
         function initChart() {
             const ctx = document.getElementById('chartKlasifikasi').getContext('2d');
@@ -332,14 +459,14 @@
                         {
                             label: 'Kelas A (1)',
                             data: [{x: 1, y: 3.5}, {x: 1.5, y: 4}, {x: 2, y: 3}, {x: 0.8, y: 2.5}],
-                            backgroundColor: '#4f46e5',
-                            pointRadius: 6
+                            backgroundColor: '#3b82f6',
+                            pointRadius: 7
                         },
                         {
                             label: 'Kelas B (0)',
                             data: [{x: 3, y: 1}, {x: 4, y: 1.5}, {x: 3.5, y: 0.5}, {x: 2.5, y: 1.2}],
                             backgroundColor: '#ef4444',
-                            pointRadius: 6
+                            pointRadius: 7
                         },
                         {
                             label: 'Decision Boundary',
@@ -376,7 +503,11 @@
             document.getElementById('val-w2').innerText = w2.toFixed(1);
             document.getElementById('val-b').innerText = b.toFixed(1);
 
-            // Hitung garis w1*x1 + w2*x2 + b = 0 => x2 = (-w1*x1 - b) / w2
+            // Update Math Equation Display
+            document.getElementById('equation-display').innerText = 
+                `${w1.toFixed(1)}X1 + (${w2.toFixed(1)})X2 + ${b.toFixed(1)} = 0`;
+
+            // Calculate Line Points: w1*x1 + w2*x2 + b = 0 => x2 = (-w1*x1 - b) / w2
             let lineData = [];
             if (w2 !== 0) {
                 for (let x = -1; x <= 6; x += 0.5) {
@@ -389,17 +520,23 @@
             chart.update();
         }
 
-        // Evaluasi Kuis Interaktif
+        // 3. Quiz Evaluation and Identity Validation Logic
         function checkQuiz() {
+            const nama = document.getElementById('mhs-nama').value.trim();
+            const nim = document.getElementById('mhs-nim').value.trim();
+
+            if (!nama || !nim) {
+                alert("PERHATIAN: Mohon lengkapi Nama Lengkap dan NIM Anda sebelum mengirim jawaban!");
+                document.getElementById('mhs-nama').focus();
+                return;
+            }
+
             const q1 = document.querySelector('input[name="q1"]:checked')?.value;
             const q2 = document.querySelector('input[name="q2"]:checked')?.value;
             const q3 = document.querySelector('input[name="q3"]:checked')?.value;
-            const res = document.getElementById('quiz-result');
 
             if (!q1 || !q2 || !q3) {
-                res.className = "p-4 rounded-xl text-sm font-medium bg-amber-50 text-amber-800 border border-amber-200";
-                res.innerText = "Harap jawab semua pertanyaan kuis terlebih dahulu!";
-                res.classList.remove('hidden');
+                alert("PERHATIAN: Mohon jawab seluruh pertanyaan kuis terlebih dahulu!");
                 return;
             }
 
@@ -410,17 +547,37 @@
 
             const finalScore = Math.round(score);
 
+            // Populate Certificate Result Card
+            document.getElementById('res-nama').innerText = nama;
+            document.getElementById('res-nim').innerText = nim;
+            document.getElementById('res-time').innerText = new Date().toLocaleString('id-ID', {
+                dateStyle: 'full',
+                timeStyle: 'medium'
+            });
+
+            const resScore = document.getElementById('res-score');
+            const resFeedback = document.getElementById('res-feedback');
+
+            resScore.innerText = `${finalScore} / 100`;
+
             if (finalScore >= 80) {
-                res.className = "p-4 rounded-xl text-sm font-medium bg-emerald-50 text-emerald-800 border border-emerald-200 space-y-1";
-                res.innerHTML = `<strong>Sempurna! Nilai Anda: ${finalScore}/100</strong><br>Anda telah memahami konsep dasar klasifikasi JST dengan baik.`;
+                resScore.className = "text-4xl font-extrabold my-2 text-emerald-400";
+                resFeedback.innerText = "Sempurna! Anda memiliki pemahaman yang sangat baik terkait konsep dasar & pembuatan model klasifikasi JST.";
             } else {
-                res.className = "p-4 rounded-xl text-sm font-medium bg-rose-50 text-rose-800 border border-rose-200 space-y-1";
-                res.innerHTML = `<strong>Nilai Anda: ${finalScore}/100</strong><br>Silakan pelajari kembali modul 1-3 di atas dan ulangi tes.`;
+                resScore.className = "text-4xl font-extrabold my-2 text-rose-400";
+                resFeedback.innerText = "Nilai evaluasi belum optimal. Silakan baca kembali Modul 1-3 dan ulangi tes ini.";
             }
-            res.classList.remove('hidden');
+
+            // Display Certificate Card Smoothly
+            const resultCard = document.getElementById('quiz-result-card');
+            resultCard.classList.remove('hidden');
+            resultCard.scrollIntoView({ behavior: 'smooth' });
         }
 
-        window.onload = initChart;
+        // Initialize Canvas Chart on Page Load
+        window.onload = function() {
+            initChart();
+        };
     </script>
 </body>
 </html>
